@@ -67,7 +67,8 @@
             HoNNeT
           </h1>
           <h2 class="subtitle">
-            Predicts which team would win given heroes of both teams (driven by deep learning)
+            Predicts which team would win given heroes of both teams (driven by deep
+            learning algorithms)
           </h2>
         </div>
       </div>
@@ -75,7 +76,7 @@
     <div class="container is-fluid box" id="app">
       <form action="/" method="GET">
         <div class="notification is-primary" v-if="true">Add some heroes then click
-          "Update Prediction" at the bottom. (Works best when predicting 5-5
+          "Update Prediction" at the bottom. (Works best when predicting 5v5
           matches)</div>
         <div class="notification">
           <div class="columns">
@@ -147,10 +148,22 @@
           <div class="columns">
             <div class="column">
               <center>
-                {{ prediction }}<br>
                 <a class="button is-large is-info" :disabled="!dirty"
                   @click.prevent="updatePrediction()">Update
                   Prediction</a>
+                <section class="hero">
+                  <div class="hero-body">
+                    <div class="container">
+                      <h1 class="title">
+                        Conclusion
+                      </h1>
+                    </div>
+                  </div>
+                  Who would win? <strong>{{ winner }}</strong><br>
+                  Chance that {{ loser }} would lose by concede: <strong>{{
+                    concede_prob }} %</strong><br>
+                  The game would end in <strong>{{ lasting_minutes }}</strong> minutes.
+                </section>
               </center>
             </div>
           </div>
