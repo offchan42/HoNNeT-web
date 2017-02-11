@@ -17,7 +17,6 @@ with open(HEROES_NAME_FILE, 'rb') as f:
 
 def load():
     model = load_model(MODEL_FILE)
-    model.summary()
     return model
 
 

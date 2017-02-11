@@ -82,9 +82,9 @@
             </p>
             <ul class="box">
               <p class="control">
-              <span class="select">
+              <span class="select is-large">
                 <select>
-                  <option>Select a Hero</option>
+                  <option>Add a Hero</option>
                   {% for key, val in heroes_id_dict.items() %}
                   <option value="{{ val }}">{{ key }}</option>
                   {% endfor %}
@@ -95,7 +95,7 @@
                 <div class="notification is-warning">
                   <button class="delete"></button>
                   {% raw %}
-                  {{ hero_id }}
+                  {{ id_to_name(hero_id) }}
                   {% endraw %}
                 </div>
               </li>
@@ -107,9 +107,9 @@
             </p>
             <ul class="box">
               <p class="control">
-              <span class="select">
+              <span class="select is-large">
                 <select>
-                  <option>Select a Hero</option>
+                  <option>Add a Hero</option>
                   {% for key, val in heroes_id_dict.items() %}
                   <option value="{{ val }}">{{ key }}</option>
                   {% endfor %}
@@ -120,7 +120,7 @@
                 <div class="notification is-warning">
                   <button class="delete"></button>
                   {% raw %}
-                  {{ hero_id }}
+                  {{ id_to_name(hero_id) }}
                   {% endraw %}
                 </div>
               </li>
@@ -163,6 +163,11 @@
   <!-- import JavaScript -->
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script>
+  const id2name_dict = {
+    {% for key, val in heroes_id_dict.items() %}
+    {{val}}: '{{key}}',
+    {% endfor %}
+  }
   const vm = new Vue({
     el: '#app',
     data() {
@@ -179,8 +184,12 @@
         ]
       }
     },
-    watch: {
+    methods: {
+      id_to_name
     }
   })
+  function id_to_name(id) {
+    return id2name_dict[id]
+  }
   </script>
 </html>
