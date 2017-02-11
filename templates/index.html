@@ -98,7 +98,7 @@
                    legionId in legion"
                   @click.prevent="addHero(false)">Add to the team</a>
                 </p>
-                <template v-if="legion.length && hellbourne.length">
+                <template v-if="legion.length && hellbourne.length && !dirty">
                   Winning Chance: {{ legion_prob }} %
                   <progress class="progress is-success is-large"
                             value="{{ legion_prob }}"
@@ -132,7 +132,7 @@
                 || hellbourneId in hellbourne"
                   @click.prevent="addHero(true)">Add to the team</a>
                 </p>
-                <template v-if="legion.length && hellbourne.length">
+                <template v-if="legion.length && hellbourne.length && !dirty">
                 Winning Chance: {{ hellbourne_prob }} %
                 <progress class="progress is-danger is-large"
                           value="{{ hellbourne_prob }}"
@@ -155,7 +155,8 @@
                 <a class="button is-large is-info" v-if="dirty"
                   @click.prevent="updatePrediction()">Update
                   Prediction</a>
-                <section class="hero is-warning" v-if="legion.length && hellbourne.length">
+                <section class="hero is-warning" v-if="legion.length &&
+                  hellbourne.length && !dirty">
                   <div class="hero-body">
                     <div class="container">
                       <h1 class="title">
@@ -164,7 +165,7 @@
                     </div>
                   </div>
                   Who would win? <strong>{{ winner }}</strong><br>
-                  Chance that {{ loser }} would lose by concede: <strong>{{
+                  Chance that {{ loser }} would concede: <strong>{{
                     concede_prob }} %</strong><br>
                   The game would end in <strong>{{ lasting_minutes }}</strong> minutes.
                 </section>
