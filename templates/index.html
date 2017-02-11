@@ -74,7 +74,8 @@
     </section>
     <div class="container is-fluid box" id="app">
       <form action="/" method="GET">
-        <div class="notification is-primary" v-if="true">Thinking ... please wait.</div>
+        <div class="notification is-primary" v-if="true">Add a hero then click
+          "Update Prediction"</div>
         <div class="notification">
           <div class="columns">
             <div class="column">
@@ -140,7 +141,7 @@
             <div class="column">
               <center>
                 {{ prediction }}<br>
-                <a class="button is-large is-outlined is-info"
+                <a class="button is-large is-outlined is-info" v-if="dirty"
                   @click.prevent="updatePrediction()">Update
                   Prediction</a>
               </center>
@@ -192,7 +193,8 @@
         {% endfor %}
         ],
         legionId: 0,
-        hellbourneId: 0
+        hellbourneId: 0,
+        dirty: false
       }
     },
     methods: {
@@ -201,14 +203,14 @@
         side = hell ? this.hellbourne : this.legion
         index = side.indexOf(id)
         side.splice(index, 1)
-        // this.updatePrediction()
+        this.dirty = true
       },
       addHero: function(id, hell) {
         side = hell ? this.hellbourne : this.legion
         if (!id)
           return
         side.push(id)
-        // this.updatePrediction()
+        this.dirty = true
       },
       updatePrediction: function() {
         url = '?' + this.GETParams
