@@ -83,8 +83,8 @@
             <ul class="box">
               <p class="control">
               <span class="select is-large">
-                <select>
-                  <option>Add a Hero</option>
+                <select v-model.number="legionId">
+                  <option value="0">Add a Hero</option>
                   {% for key, val in heroes_id_dict.items() %}
                   <option value="{{ val }}">{{ key }}</option>
                   {% endfor %}
@@ -112,8 +112,8 @@
             <ul class="box">
               <p class="control">
               <span class="select is-large">
-                <select>
-                  <option>Add a Hero</option>
+                <select v-model.number="hellbourneId">
+                  <option value="0">Add a Hero</option>
                   {% for key, val in heroes_id_dict.items() %}
                   <option value="{{ val }}">{{ key }}</option>
                   {% endfor %}
@@ -189,7 +189,9 @@
         {% for hero_id in hellbourne %}
           {{ hero_id }},
         {% endfor %}
-        ]
+        ],
+        legionId: 0,
+        hellbourneId: 0
       }
     },
     methods: {
@@ -198,11 +200,48 @@
         side = hell ? this.hellbourne : this.legion
         index = side.indexOf(id)
         side.splice(index, 1)
+        this.updatePrediction()
+      },
+      addHero: function(id, hell) {
+        side = hell ? this.hellbourne : this.legion
+        if (!id)
+          return
+        side.push(id)
+        this.updatePrediction()
+      },
+      updatePrediction: function() {
+        url = '?' + this.GETParams
+        loadUrl(url)
+      }
+    },
+    computed: {
+      GETParams: function() {
+        obj = {'legion': this.legion, 'hellbourne': this.hellbourne}
+        return serialize(obj)
+      }
+    },
+    watch: {
+      legionId: function() {
+        this.addHero(this.legionId, false)
+      },
+      hellbourneId: function() {
+        this.addHero(this.hellbourneId, true)
       }
     }
   })
   function id_to_name(id) {
     return id2name_dict[id]
+  }
+  function serialize(obj) {
+    var str = [];
+    for(var p in obj)
+      if (obj.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      }
+    return str.join("&");
+  }
+  function loadUrl(newLocation) {
+    window.location.href = newLocation;
   }
   </script>
 </html>
