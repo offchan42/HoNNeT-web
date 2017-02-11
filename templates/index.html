@@ -74,8 +74,8 @@
     </section>
     <div class="container is-fluid box" id="app">
       <form action="/" method="GET">
-        <div class="notification is-primary" v-if="true">Add a hero then click
-          "Update Prediction"</div>
+        <div class="notification is-primary" v-if="true">Add some heroes then click
+          "Update Prediction" at the bottom.</div>
         <div class="notification">
           <div class="columns">
             <div class="column">
@@ -86,19 +86,22 @@
                 <p class="control">
                 <span class="select is-large">
                   <select v-model.number="legionId">
-                    <option value="0">Add a Hero</option>
+                    <option value="0">Select a Hero</option>
                     {% for key, val in heroes_id_dict.items() %}
                     <option value="{{ val }}">{{ key }}</option>
                     {% endfor %}
                   </select>
                 </span>
+                <a class="button is-info is-large" :disabled="legionId == 0 ||
+                   legionId in legion"
+                  @click.prevent="addHero(false)">Add to the team</a>
                 </p>
-                Winning Chance: {{ prediction[0][0,0] * 100 }} %
+                Winning Chance: {{ legion_prob }} %
                 <progress class="progress is-success is-large"
-                          value="{{prediction[0][0,0] * 100}}"
-                          max="100">{{prediction[0][0,0]}}</progress>
+                          value="{{ legion_prob }}"
+                          max="100">{{ legion_prob }}</progress>
                 <li v-for="hero_id of legion">
-                  <div class="notification is-warning">
+                  <div class="notification">
                     <button class="delete" @click.prevent="removeHero(hero_id, false)"></button>
                     {% raw %}
                     {{ id_to_name(hero_id) }}
@@ -115,19 +118,22 @@
                 <p class="control">
                 <span class="select is-large">
                   <select v-model.number="hellbourneId">
-                    <option value="0">Add a Hero</option>
+                    <option value="0">Select a Hero</option>
                     {% for key, val in heroes_id_dict.items() %}
                     <option value="{{ val }}">{{ key }}</option>
                     {% endfor %}
                   </select>
                 </span>
+                <a class="button is-info is-large" :disabled="hellbourneId == 0
+                || hellbourneId in hellbourne"
+                  @click.prevent="addHero(true)">Add to the team</a>
                 </p>
-                Winning Chance: {{ prediction[0][0,1] * 100 }} %
+                Winning Chance: {{ hellbourne_prob }} %
                 <progress class="progress is-danger is-large"
-                          value="{{prediction[0][0,1] * 100}}"
-                          max="100">{{prediction[0][0,1]}}</progress>
+                          value="{{ hellbourne_prob }}"
+                          max="100">{{ hellbourne_prob }}</progress>
                 <li v-for="hero_id of hellbourne">
-                  <div class="notification is-warning">
+                  <div class="notification">
                     <button class="delete" @click.prevent="removeHero(hero_id, true)"></button>
                     {% raw %}
                     {{ id_to_name(hero_id) }}
@@ -141,7 +147,7 @@
             <div class="column">
               <center>
                 {{ prediction }}<br>
-                <a class="button is-large is-outlined is-info" v-if="dirty"
+                <a class="button is-large is-info" :disabled="!dirty"
                   @click.prevent="updatePrediction()">Update
                   Prediction</a>
               </center>
@@ -205,8 +211,9 @@
         side.splice(index, 1)
         this.dirty = true
       },
-      addHero: function(id, hell) {
+      addHero: function(hell) {
         side = hell ? this.hellbourne : this.legion
+        id = hell ? this.hellbourneId : this.legionId
         if (!id)
           return
         side.push(id)
@@ -225,10 +232,10 @@
     },
     watch: {
       legionId: function() {
-        this.addHero(this.legionId, false)
+        // this.addHero(this.legionId, false)
       },
       hellbourneId: function() {
-        this.addHero(this.hellbourneId, true)
+        // this.addHero(this.hellbourneId, true)
       }
     }
   })

@@ -24,6 +24,8 @@ def index():
         legion=legion,
         hellbourne=hellbourne,
         prediction=prediction,
+        legion_prob=round(100 * prediction[0][0,0], 2),
+        hellbourne_prob=round(100 * prediction[0][0,1], 2),
         heroes_id_dict=honnet.heroes_id_dict
     )
 
