@@ -73,7 +73,7 @@
             </div>
         </section>
         <div class="container is-fluid box" id="app">
-            <div class="notification is-success" v-if="!modelReady">Loading the brain ... please wait.</div>
+            <div class="notification is-success" v-if="true">Thinking ... please wait.</div>
             <div class="notification">
                 <div class="columns">
                     <div class="column">
@@ -127,7 +127,6 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <!-- import JavaScript -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="keras-js/keras.js"></script>
     <script>
      const N_AVAIL_HEROES = 260
      const HERO_INPUT = new Array(2 * N_AVAIL_HEROES).fill(0)
@@ -135,53 +134,11 @@
          el: '#app',
          data() {
              return {
-                 model: null,
-                 modelReady: false,
                  prediction: null
              }
          },
          watch: {
-             modelReady: function() {
-                 if (this.modelReady)
-                     console.log('the model is ready now')
-             }
          }
-     })
-     const model = new KerasJS.Model({
-         filepaths: {
-             model: 'honnet_brain_architecture.json',
-             weights: 'honnet_brain_weights_weights.buf',
-             metadata: 'honnet_brain_weights_metadata.json'
-         },
-         gpu: false
-     })
-     function getInputData(legion, hellbourne) {
-        console.log('predicting with data')
-        const inputData = {
-            'hero_input': new Float32Array(HERO_INPUT)
-        }
-        return inputData
-     }
-     model.ready().then(() => {
-         vm.model = model
-         vm.modelReady = true
-
-         // make predictions
-         // outputData is an object keyed by names of the output layers
-         // or `output` for Sequential models
-         model.predict(getInputData([], [])).then(function(outputData) {
-             console.log('output')
-             console.log(outputData)
-             vm.prediction = outputData
-         }).catch(err => {
-             // handle error
-             console.log('pred error: ')
-             console.log(err)
-         })
-     }).catch(err => {
-         // handle error
-         console.log('ready error: ')
-         console.log(err)
      })
     </script>
 </html>
