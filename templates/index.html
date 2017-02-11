@@ -98,10 +98,12 @@
                    legionId in legion"
                   @click.prevent="addHero(false)">Add to the team</a>
                 </p>
-                Winning Chance: {{ legion_prob }} %
-                <progress class="progress is-success is-large"
-                          value="{{ legion_prob }}"
-                          max="100">{{ legion_prob }}</progress>
+                <template v-if="legion.length && hellbourne.length">
+                  Winning Chance: {{ legion_prob }} %
+                  <progress class="progress is-success is-large"
+                            value="{{ legion_prob }}"
+                            max="100">{{ legion_prob }}</progress>
+                </template>
                 <li v-for="hero_id of legion">
                   <div class="notification">
                     <button class="delete" @click.prevent="removeHero(hero_id, false)"></button>
@@ -130,10 +132,12 @@
                 || hellbourneId in hellbourne"
                   @click.prevent="addHero(true)">Add to the team</a>
                 </p>
+                <template v-if="legion.length && hellbourne.length">
                 Winning Chance: {{ hellbourne_prob }} %
                 <progress class="progress is-danger is-large"
                           value="{{ hellbourne_prob }}"
                           max="100">{{ hellbourne_prob }}</progress>
+                </template>
                 <li v-for="hero_id of hellbourne">
                   <div class="notification">
                     <button class="delete" @click.prevent="removeHero(hero_id, true)"></button>
@@ -148,10 +152,10 @@
           <div class="columns">
             <div class="column">
               <center>
-                <a class="button is-large is-info" :disabled="!dirty"
+                <a class="button is-large is-info" v-if="dirty"
                   @click.prevent="updatePrediction()">Update
                   Prediction</a>
-                <section class="hero">
+                <section class="hero is-warning" v-if="legion.length && hellbourne.length">
                   <div class="hero-body">
                     <div class="container">
                       <h1 class="title">
