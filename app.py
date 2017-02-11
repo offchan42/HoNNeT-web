@@ -1,5 +1,8 @@
 from flask import Flask, render_template
+from honnet import load
+
 app = Flask(__name__)
+model = load()
 
 @app.route('/')
 def index():
