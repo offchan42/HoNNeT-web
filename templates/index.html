@@ -91,6 +91,10 @@
                 </select>
               </span>
               </p>
+              Winning Chance: {{ prediction[0][0,0] * 100 }}
+              <progress class="progress is-success is-large"
+                        value="{{prediction[0][0,0] * 100}}"
+                        max="100">{{prediction[0][0,0]}}</progress>
               <li v-for="hero_id of legion">
                 <div class="notification is-warning">
                   <button class="delete"></button>
@@ -116,6 +120,10 @@
                 </select>
               </span>
               </p>
+              Winning Chance: {{ prediction[0][0,1] * 100 }}
+              <progress class="progress is-danger is-large"
+                        value="{{prediction[0][0,1] * 100}}"
+                        max="100">{{prediction[0][0,1]}}</progress>
               <li v-for="hero_id of hellbourne">
                 <div class="notification is-warning">
                   <button class="delete"></button>
