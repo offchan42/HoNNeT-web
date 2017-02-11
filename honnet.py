@@ -2,6 +2,7 @@ from keras.models import load_model
 from operator import itemgetter
 import pickle
 import numpy as np
+from collections import OrderedDict
 
 AVAIL_HEROES = 260 # actually 134 but extra for future
 HEROES_NAME_FILE = 'heroes_name.pkl'
@@ -9,6 +10,10 @@ MODEL_FILE = 'honnet_brain.h5'
 
 with open(HEROES_NAME_FILE, 'rb') as f:
     heroes_dict = pickle.load(f)
+    heroes_id_dict = dict()
+    for key, val in heroes_dict.items():
+        heroes_id_dict[val['disp_name']] = key
+    heroes_id_dict = OrderedDict(sorted(heroes_id_dict.items()))
 
 def load():
     model = load_model(MODEL_FILE)

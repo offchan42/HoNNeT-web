@@ -20,11 +20,13 @@ def index():
     vector = honnet.vectorize_matches([match], include_Y=False)
     prediction = model.predict(vector)
     print('Prediction:', prediction)
+    print(len(honnet.heroes_id_dict))
     return render_template(
         'index.html',
         legion=legion,
         hellbourne=hellbourne,
-        prediction=prediction
+        prediction=prediction,
+        heroes_id_dict=honnet.heroes_id_dict
     )
 
 if __name__ == '__main__':

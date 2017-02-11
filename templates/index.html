@@ -81,34 +81,61 @@
             Legion
             </p>
             <ul class="box">
-              {% for hero in legion %}
-              <li>
+              <p class="control">
+              <span class="select">
+                <select>
+                  <option>None</option>
+                  {% for key, val in heroes_id_dict.items() %}
+                  <option value="{{ key }}">{{ val }}</option>
+                  {% endfor %}
+                </select>
+              </span>
+              </p>
+              <li v-for="hero_id of legion">
                 <div class="notification is-warning">
                   <button class="delete"></button>
-                  {{ hero }}
-                  <p class="control">
-                  <span class="select">
-                    <select>
-                      <option>Select dropdown</option>
-                      <option>With options</option>
-                    </select>
-                  </span>
-                  </p>
+                  {% raw %}
+                  {{ hero_id }}
+                  {% endraw %}
                 </div>
               </li>
-              {% endfor %}
             </ul>
           </div>
           <div class="column is-danger">
             <p class="notification is-danger">
             Hellbourne
             </p>
-            something
+            <ul class="box">
+              <p class="control">
+              <span class="select">
+                <select>
+                  <option>None</option>
+                  {% for key, val in heroes_id_dict.items() %}
+                  <option value="{{ key }}">{{ val }}</option>
+                  {% endfor %}
+                </select>
+              </span>
+              </p>
+              <li v-for="hero_id of hellbourne">
+                <div class="notification is-warning">
+                  <button class="delete"></button>
+                  {% raw %}
+                  {{ hero_id }}
+                  {% endraw %}
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="columns">
           <div class="column">
-            {{ prediction }}
+            <center>
+              {{ prediction }}
+              {% raw %}
+              {{ legion }}
+              {{ hellbourne }}
+              {% endraw %}
+            </center>
           </div>
         </div>
       </div>
@@ -136,13 +163,20 @@
   <!-- import JavaScript -->
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script>
-const N_AVAIL_HEROES = 260
-const HERO_INPUT = new Array(2 * N_AVAIL_HEROES).fill(0)
   const vm = new Vue({
     el: '#app',
     data() {
       return {
-        prediction: null
+        legion: [
+        {% for hero_id in legion %}
+          {{ hero_id }},
+        {% endfor %}
+        ],
+        hellbourne: [
+        {% for hero_id in hellbourne %}
+          {{ hero_id }},
+        {% endfor %}
+        ]
       }
     },
     watch: {
