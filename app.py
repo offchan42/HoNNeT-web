@@ -1,12 +1,31 @@
-from flask import Flask, render_template
-from honnet import load
+from flask import Flask, render_template, request
+import honnet
 
 app = Flask(__name__)
-model = load()
+model = honnet.load()
 
-@app.route('/')
+def extract_elements(params):
+    if params:
+        return [int(x) for x in params.split(',')]
+    else:
+        return []
+
+@app.route('/', methods=['POST', 'GET'])
 def index():
-    return render_template('index.html')
+    legion = extract_elements(request.args.get('legion'))
+    hellbourne = extract_elements(request.args.get('hellbourne'))
+    print('Legion:', legion)
+    print('Hellbourne:', hellbourne)
+    match = honnet.to_match_dict(legion, hellbourne)
+    vector = honnet.vectorize_matches([match], include_Y=False)
+    prediction = model.predict(vector)
+    print('Prediction:', prediction)
+    return render_template(
+        'index.html',
+        legion=legion,
+        hellbourne=hellbourne,
+        prediction=prediction
+    )
 
 if __name__ == '__main__':
     app.run()
