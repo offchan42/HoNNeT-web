@@ -28,7 +28,7 @@ def index():
         legion_prob=round(100 * prediction[0][0,0], 2),
         hellbourne_prob=round(100 * prediction[0][0,1], 2),
         concede_prob=round(100 * prediction[1][0,0], 2),
-        lasting_minutes=round(prediction[2][0,0] / 60),
+        lasting_minutes=int(round(prediction[2][0,0] / 60)),
         heroes_id_dict=honnet.heroes_id_dict,
         winner=TEAM_NAMES[np.argmax(prediction[0][0,:])],
         loser=TEAM_NAMES[np.argmin(prediction[0][0,:])],
