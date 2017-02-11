@@ -73,80 +73,81 @@
       </div>
     </section>
     <div class="container is-fluid box" id="app">
-      <div class="notification is-primary" v-if="true">Thinking ... please wait.</div>
-      <div class="notification">
-        <div class="columns">
-          <div class="column">
-            <p class="notification is-success box">
-            Legion
-            </p>
-            <ul class="box">
-              <p class="control">
-              <span class="select is-large">
-                <select v-model.number="legionId">
-                  <option value="0">Add a Hero</option>
-                  {% for key, val in heroes_id_dict.items() %}
-                  <option value="{{ val }}">{{ key }}</option>
-                  {% endfor %}
-                </select>
-              </span>
+      <form action="/" method="GET">
+        <div class="notification is-primary" v-if="true">Thinking ... please wait.</div>
+        <div class="notification">
+          <div class="columns">
+            <div class="column">
+              <p class="notification is-success box">
+              Legion
               </p>
-              Winning Chance: {{ prediction[0][0,0] * 100 }} %
-              <progress class="progress is-success is-large"
-                        value="{{prediction[0][0,0] * 100}}"
-                        max="100">{{prediction[0][0,0]}}</progress>
-              <li v-for="hero_id of legion">
-                <div class="notification is-warning">
-                  <button class="delete" @click="removeHero(hero_id, false)"></button>
-                  {% raw %}
-                  {{ id_to_name(hero_id) }}
-                  {% endraw %}
-                </div>
-              </li>
-            </ul>
+              <ul class="box">
+                <p class="control">
+                <span class="select is-large">
+                  <select v-model.number="legionId">
+                    <option value="0">Add a Hero</option>
+                    {% for key, val in heroes_id_dict.items() %}
+                    <option value="{{ val }}">{{ key }}</option>
+                    {% endfor %}
+                  </select>
+                </span>
+                </p>
+                Winning Chance: {{ prediction[0][0,0] * 100 }} %
+                <progress class="progress is-success is-large"
+                          value="{{prediction[0][0,0] * 100}}"
+                          max="100">{{prediction[0][0,0]}}</progress>
+                <li v-for="hero_id of legion">
+                  <div class="notification is-warning">
+                    <button class="delete" @click.prevent="removeHero(hero_id, false)"></button>
+                    {% raw %}
+                    {{ id_to_name(hero_id) }}
+                    {% endraw %}
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="column is-danger">
+              <p class="notification is-danger">
+              Hellbourne
+              </p>
+              <ul class="box">
+                <p class="control">
+                <span class="select is-large">
+                  <select v-model.number="hellbourneId">
+                    <option value="0">Add a Hero</option>
+                    {% for key, val in heroes_id_dict.items() %}
+                    <option value="{{ val }}">{{ key }}</option>
+                    {% endfor %}
+                  </select>
+                </span>
+                </p>
+                Winning Chance: {{ prediction[0][0,1] * 100 }} %
+                <progress class="progress is-danger is-large"
+                          value="{{prediction[0][0,1] * 100}}"
+                          max="100">{{prediction[0][0,1]}}</progress>
+                <li v-for="hero_id of hellbourne">
+                  <div class="notification is-warning">
+                    <button class="delete" @click.prevent="removeHero(hero_id, true)"></button>
+                    {% raw %}
+                    {{ id_to_name(hero_id) }}
+                    {% endraw %}
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="column is-danger">
-            <p class="notification is-danger">
-            Hellbourne
-            </p>
-            <ul class="box">
-              <p class="control">
-              <span class="select is-large">
-                <select v-model.number="hellbourneId">
-                  <option value="0">Add a Hero</option>
-                  {% for key, val in heroes_id_dict.items() %}
-                  <option value="{{ val }}">{{ key }}</option>
-                  {% endfor %}
-                </select>
-              </span>
-              </p>
-              Winning Chance: {{ prediction[0][0,1] * 100 }} %
-              <progress class="progress is-danger is-large"
-                        value="{{prediction[0][0,1] * 100}}"
-                        max="100">{{prediction[0][0,1]}}</progress>
-              <li v-for="hero_id of hellbourne">
-                <div class="notification is-warning">
-                  <button class="delete" @click="removeHero(hero_id, true)"></button>
-                  {% raw %}
-                  {{ id_to_name(hero_id) }}
-                  {% endraw %}
-                </div>
-              </li>
-            </ul>
+          <div class="columns">
+            <div class="column">
+              <center>
+                {{ prediction }}<br>
+                <a class="button is-large is-outlined is-info"
+                  @click.prevent="updatePrediction()">Update
+                  Prediction</a>
+              </center>
+            </div>
           </div>
         </div>
-        <div class="columns">
-          <div class="column">
-            <center>
-              {{ prediction }}
-              {% raw %}
-              {{ legion }}
-              {{ hellbourne }}
-              {% endraw %}
-            </center>
-          </div>
-        </div>
-      </div>
+      </form>
     </div>
     <footer class="footer">
       <div class="container">
@@ -200,14 +201,14 @@
         side = hell ? this.hellbourne : this.legion
         index = side.indexOf(id)
         side.splice(index, 1)
-        this.updatePrediction()
+        // this.updatePrediction()
       },
       addHero: function(id, hell) {
         side = hell ? this.hellbourne : this.legion
         if (!id)
           return
         side.push(id)
-        this.updatePrediction()
+        // this.updatePrediction()
       },
       updatePrediction: function() {
         url = '?' + this.GETParams
