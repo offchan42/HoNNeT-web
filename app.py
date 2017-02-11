@@ -6,17 +6,11 @@ TIMES_SERVED = 0
 app = Flask(__name__)
 model = honnet.load()
 
-def extract_elements(params):
-    if params:
-        return [int(x) for x in params.split(',')]
-    else:
-        return []
-
 @app.route('/', methods=['POST', 'GET'])
 def index():
     global TIMES_SERVED
-    legion = extract_elements(request.args.get('legion'))
-    hellbourne = extract_elements(request.args.get('hellbourne'))
+    legion = honnet.extract_hero_ids(request.args.get('legion'))
+    hellbourne = honnet.extract_hero_ids(request.args.get('hellbourne'))
     print('Legion:', legion)
     print('Hellbourne:', hellbourne)
     match = honnet.to_match_dict(legion, hellbourne)

@@ -81,5 +81,14 @@ def humanize(xrow):
                 hellbourne.append(name)
     return {'legion': legion, 'hellbourne': hellbourne}
 
+def extract_hero_ids(params):
+    if params:
+        ids = [int(x) for x in params.split(',') if int(x) in heroes_dict]
+        unique = set(ids)
+        res = list(unique)
+        return res
+    else:
+        return []
+
 if __name__ == '__main__':
     load()
