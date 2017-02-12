@@ -78,10 +78,11 @@
         <div class="notification is-primary">Add some heroes then click
           "Update Prediction". (Works best when predicting 5v5
           matches)</div>
-        <div class="notification columns" v-if="dirty">
+        <div class="notification columns" v-if="dirty || (legion.length &&
+          hellbourne.length)">
           <div class="column">
             <center>
-              <a class="button is-large is-info is-outlined"
+              <a class="button is-large is-info is-outlined" v-if="dirty"
                                                  @click.prevent="updatePrediction()">Update
                                                  Prediction</a>
               <section class="hero is-info" v-if="legion.length &&
@@ -121,7 +122,7 @@
                 legion.indexOf(legionId) >= 0"
                   @click.prevent="addHero(false)">Add to the team</a>
                 </p>
-                <template v-if="legion.length && hellbourne.length && !dirty">
+                <template v-if="!dirty">
                   Winning Chance: {{ legion_prob }} %
                   <progress class="progress {{ 'is-primary' if winner ==
                   'Legion' else 'is-warning' }} is-large"
@@ -186,7 +187,7 @@
                 || hellbourne.indexOf(hellbourneId) >= 0"
                   @click.prevent="addHero(true)">Add to the team</a>
                 </p>
-                <template v-if="legion.length && hellbourne.length && !dirty">
+                <template v-if="!dirty">
                   Winning Chance: {{ hellbourne_prob }} %
                   <progress class="progress {{ 'is-primary' if winner ==
                   'Hellbourne' else 'is-warning' }} is-large"
