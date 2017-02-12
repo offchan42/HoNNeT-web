@@ -78,10 +78,10 @@
         <div class="notification is-primary">Add some heroes then click
           "Update Prediction". (Works best when predicting 5v5
           matches)</div>
-        <div class="notification columns">
+        <div class="notification columns" v-if="dirty">
           <div class="column">
             <center>
-              <a class="button is-large is-info is-outlined" v-if="dirty"
+              <a class="button is-large is-info is-outlined"
                                                  @click.prevent="updatePrediction()">Update
                                                  Prediction</a>
               <section class="hero is-info" v-if="legion.length &&
