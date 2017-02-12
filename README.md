@@ -14,7 +14,7 @@ Bulma.io and Flask as web technology stack.
    going to install something here: run `virtualenv venv`
 3. Tell python to use the environment recently created by running `source
    activate venv` (or `activate venv` if you are on Windows).
-4. Install dependencie: `pip install -r requirements.txt` (`gunicorn` is
+4. Install dependencies: `pip install -r requirements.txt` (`gunicorn` is
    unnecessary, don't worry if there is an error installing it, it's required for
    the real Linux web server only)
    This will install some libraries into that `venv` directory.
