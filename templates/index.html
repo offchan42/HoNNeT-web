@@ -67,17 +67,40 @@
             HoNNeT
           </h1>
           <h2 class="subtitle">
-            Predicts which team would win given heroes of both teams (driven by deep
-            learning algorithms)
+            Predicts which team would win and suggest hero picks given heroes of
+            both teams (driven by deep learning algorithms)
           </h2>
         </div>
       </div>
     </section>
     <div class="container is-fluid box" id="app">
       <form action="/" method="GET">
-        <div class="notification is-primary" v-if="true">Add some heroes then click
-          "Update Prediction" at the bottom. (Works best when predicting 5v5
+        <div class="notification is-primary">Add some heroes then click
+          "Update Prediction". (Works best when predicting 5v5
           matches)</div>
+        <div class="notification columns">
+          <div class="column">
+            <center>
+              <a class="button is-large is-info is-outlined" v-if="dirty"
+                                                 @click.prevent="updatePrediction()">Update
+                                                 Prediction</a>
+              <section class="hero is-info" v-if="legion.length &&
+              hellbourne.length && !dirty">
+                <div class="hero-body">
+                  <div class="container">
+                    <h1 class="title">
+                      Conclusion
+                    </h1>
+                  </div>
+                </div>
+                Who would win? <strong>{{ winner }}</strong><br>
+                Chance that {{ loser }} would concede: <strong>{{
+                  concede_prob }} %</strong><br>
+                The game would end in <strong>{{ lasting_minutes }}</strong> minutes.
+              </section>
+            </center>
+          </div>
+        </div>
         <div class="notification">
           <div class="columns">
             <div class="column">
@@ -100,7 +123,8 @@
                 </p>
                 <template v-if="legion.length && hellbourne.length && !dirty">
                   Winning Chance: {{ legion_prob }} %
-                  <progress class="progress is-success is-large"
+                  <progress class="progress {{ 'is-primary' if winner ==
+                  'Legion' else 'is-warning' }} is-large"
                             value="{{ legion_prob }}"
                             max="100">{{ legion_prob }}</progress>
                 </template>
@@ -113,27 +137,31 @@
                   </div>
                 </li>
               </ul>
-              <p class="notification box is-success">
-              Hero Recommendations (which hero you should pick next)
+              <p class="notification box is-success" v-if="!dirty">
+              Hero Suggestions (which hero you should pick next to maximize
+              winning chance/probability)
               </p>
-              <div class="columns">
+              <div class="columns" v-if="!dirty">
                 <div class="column">
                   <table>
                     <tr>
                       <th>Hero Name</th>
                       <th>New Winning Chance</th>
-                      <th>New Progress Bar</th>
+                      <th>New Winning Bar</th>
+                      <th>Chance Gain</th>
                     </tr>
                     {% for hero_id, hero_name, prob, gain in optimal_legion %}
                     <tr>
                       <td @click="alert('{{hero_id}}')">{{ hero_name }}</td>
                       <td>{{ prob }} %</td>
                       <td>
-                        <progress class="progress is-success is-small" value="{{
+                        <progress class="progress {{ 'is-primary' if gain > 0
+                        else 'is-warning' }} is-small" value="{{
                         prob }}" max="100">
                           {{ prob }}
                         </progress>
                       </td>
+                      <td>{{ gain  }} %</td>
                     </tr>
                     {% endfor %}
                   </table>
@@ -160,7 +188,8 @@
                 </p>
                 <template v-if="legion.length && hellbourne.length && !dirty">
                   Winning Chance: {{ hellbourne_prob }} %
-                  <progress class="progress is-danger is-large"
+                  <progress class="progress {{ 'is-primary' if winner ==
+                  'Hellbourne' else 'is-warning' }} is-large"
                             value="{{ hellbourne_prob }}"
                             max="100">{{ hellbourne_prob }}</progress>
                 </template>
@@ -193,29 +222,6 @@
                             max="100">{{ hellbourne_prob }}</progress>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column">
-              <center>
-                <a class="button is-large is-info" v-if="dirty"
-                  @click.prevent="updatePrediction()">Update
-                  Prediction</a>
-                <section class="hero is-info" v-if="legion.length &&
-                  hellbourne.length && !dirty">
-                  <div class="hero-body">
-                    <div class="container">
-                      <h1 class="title">
-                        Conclusion
-                      </h1>
-                    </div>
-                  </div>
-                  Who would win? <strong>{{ winner }}</strong><br>
-                  Chance that {{ loser }} would concede: <strong>{{
-                    concede_prob }} %</strong><br>
-                  The game would end in <strong>{{ lasting_minutes }}</strong> minutes.
-                </section>
-              </center>
             </div>
           </div>
         </div>
