@@ -3,7 +3,8 @@ Website for my HoNNeT deep learning side-project
 
 It contains the files required to run the web inside Heroku. I use Vue.js,
 Bulma.io and Flask as web technology stack.
-The only file for the web is at `templates/index.html`. It contains heavy use of
+
+The only file for web interface is `templates/index.html`. It contains heavy use of
 Jinja2 templating, Bulma.io CSS classes, and Vue.js scripting.
 
 ## Requirements
