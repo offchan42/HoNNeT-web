@@ -32,6 +32,10 @@ def index():
         heroes_id_dict=honnet.heroes_id_dict,
         winner=TEAM_NAMES[np.argmax(prediction[0][0,:])],
         loser=TEAM_NAMES[np.argmin(prediction[0][0,:])],
+        optimal_legion=honnet.optimal_hero_choice(model, match,
+                                                   hellbourne_side=False),
+        optimal_hellbourne=honnet.optimal_hero_choice(model, match,
+                                                   hellbourne_side=True)
     )
 
 if __name__ == '__main__':

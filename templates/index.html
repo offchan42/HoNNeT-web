@@ -95,7 +95,7 @@
                   </select>
                 </span>
                 <a class="button is-info is-large" :disabled="legionId == 0 ||
-                   legionId in legion"
+                legion.indexOf(legionId) >= 0"
                   @click.prevent="addHero(false)">Add to the team</a>
                 </p>
                 <template v-if="legion.length && hellbourne.length && !dirty">
@@ -113,6 +113,32 @@
                   </div>
                 </li>
               </ul>
+              <p class="notification box is-success">
+              Hero Recommendations (which hero you should pick next)
+              </p>
+              <div class="columns">
+                <div class="column">
+                  <table>
+                    <tr>
+                      <th>Hero Name</th>
+                      <th>New Winning Chance</th>
+                      <th>New Progress Bar</th>
+                    </tr>
+                    {% for hero, prob in optimal_legion %}
+                    <tr>
+                      <td>{{ hero }}</td>
+                      <td>{{ int(prob * 100) }} %</td>
+                      <td>
+                        <progress class="progress is-success is-small" value="{{
+                          prob * 100}}" max="100">
+                          {{ prob }}
+                        </progress>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
             </div>
             <div class="column is-danger">
               <p class="notification is-danger">
@@ -129,14 +155,14 @@
                   </select>
                 </span>
                 <a class="button is-info is-large" :disabled="hellbourneId == 0
-                || hellbourneId in hellbourne"
+                || hellbourne.indexOf(hellbourneId) >= 0"
                   @click.prevent="addHero(true)">Add to the team</a>
                 </p>
                 <template v-if="legion.length && hellbourne.length && !dirty">
-                Winning Chance: {{ hellbourne_prob }} %
-                <progress class="progress is-danger is-large"
-                          value="{{ hellbourne_prob }}"
-                          max="100">{{ hellbourne_prob }}</progress>
+                  Winning Chance: {{ hellbourne_prob }} %
+                  <progress class="progress is-danger is-large"
+                            value="{{ hellbourne_prob }}"
+                            max="100">{{ hellbourne_prob }}</progress>
                 </template>
                 <li v-for="hero_id of hellbourne">
                   <div class="notification">
@@ -147,6 +173,26 @@
                   </div>
                 </li>
               </ul>
+              <div class="columns">
+                <div class="column">
+                  <ol>
+                    <li>a hero</li>
+                    <li>a hero</li>
+                    <li>a hero</li>
+                  </ol>
+                </div>
+                <div class="column">
+                  <progress class="progress is-danger"
+                            value="{{ hellbourne_prob }}"
+                            max="100">{{ hellbourne_prob }}</progress>
+                  <progress class="progress is-danger"
+                            value="{{ hellbourne_prob }}"
+                            max="100">{{ hellbourne_prob }}</progress>
+                  <progress class="progress is-danger"
+                            value="{{ hellbourne_prob }}"
+                            max="100">{{ hellbourne_prob }}</progress>
+                </div>
+              </div>
             </div>
           </div>
           <div class="columns">
