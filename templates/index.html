@@ -124,13 +124,13 @@
                       <th>New Winning Chance</th>
                       <th>New Progress Bar</th>
                     </tr>
-                    {% for hero, prob in optimal_legion %}
+                    {% for hero_id, hero_name, prob, gain in optimal_legion %}
                     <tr>
-                      <td>{{ hero }}</td>
-                      <td>{{ int(prob * 100) }} %</td>
+                      <td @click="alert('{{hero_id}}')">{{ hero_name }}</td>
+                      <td>{{ prob }} %</td>
                       <td>
                         <progress class="progress is-success is-small" value="{{
-                          prob * 100}}" max="100">
+                        prob }}" max="100">
                           {{ prob }}
                         </progress>
                       </td>

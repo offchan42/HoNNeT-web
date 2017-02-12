@@ -48,22 +48,30 @@ def vectorize_matches(matches, include_Y=True):
 
 # returns a hero that maximize win probability in a given team
 # if 'optimal' is false, it will return a hero that minimize win probability
-def optimal_hero_choice(model, match, hellbourne_side=False, as_list=True, as_name=True, optimal=True):
+def optimal_hero_choice(model, match, hellbourne_side=False, as_list=True,
+                        optimal=True, human_readable=True):
     legion = match['legion']
     hellbourne = match['hellbourne']
     team_ids = hellbourne if hellbourne_side else legion
     hypothesis = []
+    orig_win_prob = model.predict(vectorize_matches(
+        [match],
+        include_Y=False
+    ))[0][0, 1 if hellbourne_side else 0]
     for id in set(heroes_dict.keys()) - set(legion + hellbourne): # all choosable hero ids
         team_ids.append(id)
         x = vectorize_matches([match], include_Y=False)
         team_ids.pop()
         p = model.predict(x, verbose=0)[0]
-        hero = id
-        if as_name:
-            hero = hero_id_to_name(hero)
-        hypothesis.append((hero, p[0, 1 if hellbourne_side else 0]))
+        hero_name = hero_id_to_name(id)
+        win_prob = p[0, 1 if hellbourne_side else 0]
+        gain_prob = win_prob - orig_win_prob
+        if human_readable:
+            win_prob = round(win_prob * 100, 2)
+            gain_prob = round(gain_prob * 100, 2)
+        hypothesis.append((id, hero_name, win_prob, gain_prob))
     extrema = max if optimal else min
-    return sorted(hypothesis, key=itemgetter(1), reverse=optimal) if as_list else extrema(hypothesis, key=itemgetter(1))
+    return sorted(hypothesis, key=itemgetter(2), reverse=optimal) if as_list else extrema(hypothesis, key=itemgetter(2))
 
 # turn a list of legion and hellbourne into a dictionary
 def to_match_dict(leg, hell):
