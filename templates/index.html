@@ -156,7 +156,7 @@
                       <td><a @click="selectHero({{hero_id}}, false)">{{ hero_name }}</a></td>
                       <td>{{ prob }} %</td>
                       <td>
-                        <progress class="progress {{ 'is-primary' if gain > 0
+                        <progress class="progress {{ 'is-primary' if prob > 50
                         else 'is-warning' }} is-small" value="{{
                         prob }}" max="100">
                           {{ prob }}
@@ -221,7 +221,7 @@
                       <td><a @click="selectHero({{hero_id}}, true)">{{ hero_name }}</a></td>
                       <td>{{ prob }} %</td>
                       <td>
-                        <progress class="progress {{ 'is-primary' if gain > 0
+                        <progress class="progress {{ 'is-primary' if prob > 50
                         else 'is-warning' }} is-small" value="{{
                         prob }}" max="100">
                           {{ prob }}
