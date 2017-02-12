@@ -18,7 +18,7 @@ Bulma.io and Flask as web technology stack.
    unnecessary, don't worry if there is an error installing it, it's required for
    the real Linux web server only)
    This will install some libraries into that `venv` directory.
-5. Run `python app.py` to run the application
+5. Enter `python app.py` to run the application
 6. Open web browser and go to http://127.0.0.1:5000/
 7. Play with the application.
 
