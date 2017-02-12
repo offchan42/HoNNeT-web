@@ -137,11 +137,11 @@
                   </div>
                 </li>
               </ul>
-              <p class="notification box is-success" v-if="!dirty">
+              <p class="notification box is-success" v-if="true">
               Hero Suggestions (which hero you should pick next to maximize
               winning chance/probability)
               </p>
-              <div class="columns" v-if="!dirty">
+              <div class="columns" v-if="true">
                 <div class="column">
                   <table>
                     <tr>
@@ -152,7 +152,7 @@
                     </tr>
                     {% for hero_id, hero_name, prob, gain in optimal_legion %}
                     <tr>
-                      <td @click="alert('{{hero_id}}')">{{ hero_name }}</td>
+                      <td><a @click="selectHero({{hero_id}}, false)">{{ hero_name }}</a></td>
                       <td>{{ prob }} %</td>
                       <td>
                         <progress class="progress {{ 'is-primary' if gain > 0
@@ -202,24 +202,34 @@
                   </div>
                 </li>
               </ul>
-              <div class="columns">
+              <p class="notification box is-danger" v-if="true">
+              Hero Suggestions (which hero you should pick next to maximize
+              winning chance/probability)
+              </p>
+              <div class="columns" v-if="true">
                 <div class="column">
-                  <ol>
-                    <li>a hero</li>
-                    <li>a hero</li>
-                    <li>a hero</li>
-                  </ol>
-                </div>
-                <div class="column">
-                  <progress class="progress is-danger"
-                            value="{{ hellbourne_prob }}"
-                            max="100">{{ hellbourne_prob }}</progress>
-                  <progress class="progress is-danger"
-                            value="{{ hellbourne_prob }}"
-                            max="100">{{ hellbourne_prob }}</progress>
-                  <progress class="progress is-danger"
-                            value="{{ hellbourne_prob }}"
-                            max="100">{{ hellbourne_prob }}</progress>
+                  <table>
+                    <tr>
+                      <th>Hero Name</th>
+                      <th>New Winning Chance</th>
+                      <th>New Winning Bar</th>
+                      <th>Chance Gain</th>
+                    </tr>
+                    {% for hero_id, hero_name, prob, gain in optimal_hellbourne %}
+                    <tr>
+                      <td><a @click="selectHero({{hero_id}}, true)">{{ hero_name }}</a></td>
+                      <td>{{ prob }} %</td>
+                      <td>
+                        <progress class="progress {{ 'is-primary' if gain > 0
+                        else 'is-warning' }} is-small" value="{{
+                        prob }}" max="100">
+                          {{ prob }}
+                        </progress>
+                      </td>
+                      <td>{{ gain  }} %</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
                 </div>
               </div>
             </div>
@@ -294,6 +304,16 @@
           return
         side.push(id)
         this.dirty = true
+      },
+      selectHero: function(id, hell) {
+        selectId = hell ? this.hellbourneId : this.legionId
+        if (!id || !(id in id2name_dict)) return
+        if (hell) {
+          this.hellbourneId = id
+        } else {
+          this.legionId = id
+        }
+        this.addHero(hell)
       },
       updatePrediction: function() {
         url = '?' + this.GETParams
