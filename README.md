@@ -43,4 +43,8 @@ Jinja2 templating, Bulma.io CSS classes, and Vue.js scripting.
 6. Open web browser and go to http://127.0.0.1:5000/
 7. Play with the application.
 
+## Disclaimer
+The data used for training the model needs to be updated regularly because heroes mechanisms are updated often.
+Look at the date of the `honnet_brain.h5` to see when it was last updated.
+
 Have fun!
