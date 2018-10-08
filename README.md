@@ -1,5 +1,9 @@
 # HoNNeT-web
-Website for my [HoNNeT](https://github.com/off99555/HoNNeT) deep learning side-project
+Website for my [HoNNeT](https://github.com/off99555/HoNNeT) deep learning side-project.
+
+This app will load the trained `keras` deep learning model trained from the main **HoNNeT** repository
+and predicts which team would win, how long the match is going to last, and whether the team
+would lose by conceding or by the main tower being destroyed.
 
 It contains the files required to run the web inside Heroku. I use Vue.js,
 Bulma.io and Flask as web technology stack.
