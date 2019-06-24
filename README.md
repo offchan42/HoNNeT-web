@@ -1,5 +1,5 @@
 # HoNNeT-web
-Website for my [HoNNeT](https://github.com/off99555/HoNNeT) deep learning side-project.
+[Website](https://honnet.herokuapp.com/) for my [HoNNeT](https://github.com/off99555/HoNNeT) deep learning side-project.
 
 This app will load the trained `keras` deep learning model trained from the main **HoNNeT** repository
 and predicts which team would win, how long the match is going to last, and whether the team
